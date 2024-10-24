@@ -22,6 +22,7 @@
 
     <!-- Confirmation Nama Makanan -->
     <TextView
+        android:id="@+id/foodNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Food Name: Batagor"
@@ -30,6 +31,7 @@
 
     <!-- Confirmation Jumlah Porsi -->
     <TextView
+        android:id="@+id/servingsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Number of Servings: 2 pax"
@@ -38,6 +40,7 @@
 
     <!-- Confirmation Nama pengorder -->
     <TextView
+        android:id="@+id/orderingNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ordering Name: Usep"
@@ -46,6 +49,7 @@
 
     <!-- Input Catatan Tambahan -->
     <TextView
+        android:id="@+id/notesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Additional Notes: Tidak Pedas"
@@ -65,6 +69,6 @@
         android:id="@+id/backtoMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back to Menu"
+        android:text="Back to Menu" />
 
 </LinearLayout>
