@@ -1,27 +1,27 @@
 package lat.pam.utsproject
 
 import android.os.Bundle
+import android.widget.SearchView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class ListFoodActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: FoodAdapter
     private lateinit var foodList: List<Food>
+    private lateinit var filteredFoodList: List<Food> // List untuk pencarian
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_list_food)
 
-
         recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = GridLayoutManager(this, 2) // Menggunakan GridLayoutManager untuk dua kolom
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
 
         // Menyiapkan data makanan
         foodList = listOf(
@@ -37,14 +37,40 @@ class ListFoodActivity : AppCompatActivity() {
             Food("Sparkling Tea", "Teh bersoda yang segar dan unik, perpaduan rasa teh dengan sentuhan sparkling", R.drawable.sparkling_tea)
         )
 
-        adapter = FoodAdapter(foodList)
+        filteredFoodList = foodList // Set awal untuk menampilkan semua makanan
+        adapter = FoodAdapter(filteredFoodList)
         recyclerView.adapter = adapter
 
+        // Menginisialisasi SearchView
+        val searchView = findViewById<SearchView>(R.id.searchView)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterFoodList(newText)
+                return true
+            }
+        })
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+    }
+
+    private fun filterFoodList(query: String?) {
+        query?.let {
+            filteredFoodList = if (it.isEmpty()) {
+                foodList
+            } else {
+                foodList.filter { food ->
+                    food.name.contains(it, ignoreCase = true) // Filter berdasarkan nama makanan
+                }
+            }
+            adapter.updateData(filteredFoodList) // Update data di adapter
         }
     }
 }
